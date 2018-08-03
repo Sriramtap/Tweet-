@@ -97,10 +97,11 @@ tweets
 tweet.text = laply(tweets,function(t)t$getText())    
 
 ###########  For each element of a list, apply function then combine results into an array.
+                  
 
 clean.text <- function(some_txt)
 {  
-  ### STEP 4.2(a): Remove punctualtion, links
+  ### STEP 4.2(a): Remove punctualtion and other special, unwanted characters of the tweets, links
   some_txt = gsub("(RT|via)((?:\\b\\W*@\\w+)+)", "", some_txt)
   some_txt = gsub("@\\w+", "", some_txt)
   some_txt = gsub("[[:punct:]]", "", some_txt)
@@ -109,7 +110,7 @@ clean.text <- function(some_txt)
   some_txt = gsub("[ \t]{2,}", "", some_txt)
   some_txt = gsub("^\\s+|\\s+$", "", some_txt)
   
-  ## STEP 4.2(b): Remove non-english characters
+  ## STEP 4.2(b): Remove non-english characters/ Special characters
   some_txt = gsub("[^\x20-\x7E]", "", some_txt)
   
   # STEP 4.2(c) : Define "tolower error handling" function
@@ -147,9 +148,11 @@ tdm = TermDocumentMatrix(tweet_corpus, control = list(removePunctuation = TRUE,s
 #### TDM in matrix
 m = as.matrix(tdm)
 
-#######################################https://github.com/Mzkarim/SentimentAnalysis
+#######################################  Reference https://github.com/Mzkarim/SentimentAnalysis
 ##### decresing order of count
-word_freqs = sort(rowSums(m), decreasing=TRUE) 
+###################### Ref https://github.com/amueller/word_cloud/tree/master/wordcloud
+
+                         word_freqs = sort(rowSums(m), decreasing=TRUE) 
 
 ### Creating a data frame 
 dm = data.frame(word=names(word_freqs), freq=word_freqs) 
